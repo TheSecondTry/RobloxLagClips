@@ -25,12 +25,12 @@ RunService.Stepped:connect(function()
 		if humanoid.Jump then
 			jumpTimer = 0
 		else
-			jumpTimer = jumpTimer + 1
+			jumpTimer += 1
 		end
-		if not (UserInputService:IsKeyDown(Enum.KeyCode.W) or UserInputService:IsKeyDown(Enum.KeyCode.A) or UserInputService:IsKeyDown(Enum.KeyCode.S) or UserInputService:IsKeyDown(Enum.KeyCode.D) or UserInputService:IsKeyDown(Enum.KeyCode.Up) or UserInputService:IsKeyDown(Enum.KeyCode.Down)) then
-			walkTimer = 0
+		if humanoid.MoveDirection.Magnitude > 0 then
+			walkTimer += 1
 		else
-			walkTimer = walkTimer + 1
+			walkTimer = 0
 		end
 		
 		touchingWall.Value = wall
@@ -39,7 +39,7 @@ RunService.Stepped:connect(function()
 		wall = workspace:FindPartOnRay(ray)
 		
 		if wall then
-			if wallCanCollide and jumpTimer > 3 and walkTimer <= 3 then
+			if wallCanCollide and jumpTimer > 3 and walkTimer <= 1 then
 				local touchingWall2 = touchingWall.Value
 				touchingWall.Value.CanCollide = not touchingWall.Value.CanCollide
 				wait()
